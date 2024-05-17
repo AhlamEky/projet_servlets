@@ -16,16 +16,27 @@ import java.sql.SQLException;
  */
 public class addRoomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldb";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldata";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérer les données du formulaire
-        String num_rooms = request.getParameter("num_rooms");
-        String type = request.getParameter("type");
-        String statut = request.getParameter("statut");
+        String Num_RoomS = request.getParameter("Num_Room");
+        String Type = request.getParameter("Type");
+        String Statut = request.getParameter("Statut");
 
+        int Num_Room = 0;
+        if (Num_RoomS != null && !Num_RoomS.trim().isEmpty()) {
+            try {
+            	Num_Room = Integer.parseInt(Num_RoomS);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                response.sendRedirect("error.jsp");
+                return;
+            }
+        }
+        
         // Connexion à la base de données et insertion des données
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -34,23 +45,24 @@ public class addRoomServlet extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             // Établir une connexion à la base de données
             conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-          if (num_rooms != null && !num_rooms.isEmpty()) {
+            String sql;
+          if (Num_Room>0) {
         	// Modification d'un médecin existant
-            String sql = "UPDATE rooms SET num_room=?, type=?, statut=? WHERE num_room=?";
+            sql = "UPDATE rooms SET Num_Room=?, Type=?,Statut=? WHERE Num_Room=?";
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, num_rooms);
-            stmt.setString(2, type);
-            stmt.setString(3, statut);
+            stmt.setInt(1, Num_Room);
+            stmt.setString(2, Type);
+            stmt.setString(3, Statut);
           } else {
               // Ajout d'un nouveau médecin
-              String sql = "INSERT INTO rooms (num_room, type, statut) VALUES (?, ?, ?)";
+              sql = "INSERT INTO rooms (Num_Room, Type, Statut) VALUES (?, ?, ?)";
               stmt = conn.prepareStatement(sql);
-              stmt.setString(1, num_rooms);
-              stmt.setString(2, type);
-              stmt.setString(3, statut);
+              stmt.setInt(1, Num_Room);
+              stmt.setString(2, Type);
+              stmt.setString(3, Statut);
           }
           stmt.executeUpdate();
-          response.sendRedirect("confirmation.jsp");
+          response.sendRedirect("rooms.jsp");
       } catch (Exception e) {
           e.printStackTrace();
           response.sendRedirect("error.jsp");

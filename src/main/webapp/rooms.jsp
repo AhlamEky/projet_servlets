@@ -165,7 +165,7 @@
         <ul>
             <li><a href="doctors.jsp">Doctors</a></li>
             <li><a href="rooms.jsp">Rooms</a></li>
-            <li><a href="appointment.jsp">Appointments</a></li>
+            <li><a href="appointement.jsp">Appointments</a></li>
             <li><a href="patient.jsp">Patients</a></li>
         </ul>
         <div class="logout">
@@ -182,17 +182,17 @@
     <main>
         <div class="add-doctor">
             <form action="addRoomServlet" method="post">
-                <label for="num_rooms">Num Rooms :</label><br>
-                <input type="text" id="num_rooms" name="num_rooms" value="<%= request.getParameter("num_rooms") %>">
-               <label for="type">Type :</label><br>
-                <select id="type" name="type">
-                    <option value="operation" <%= "operation".equals(request.getParameter("type")) ? "selected" : "" %>>Operation</option>
-                    <option value="suite" <%= "suite".equals(request.getParameter("type")) ? "selected" : "" %>>Suite</option>
+                <label for="Num_Room">Num Rooms :</label><br>
+                <input type="NUMBER" id="Num_Room" name="Num_Room" value="<%= request.getParameter("Num_Room") %>">
+               <label for="Type">Type :</label><br>
+                <select id="Type" name="Type">
+                    <option value="operation" <%= "operation".equals(request.getParameter("Type")) ? "selected" : "" %>>Operation</option>
+                    <option value="suite" <%= "suite".equals(request.getParameter("Type")) ? "selected" : "" %>>Suite</option>
                 </select><br>
-                <label for="statut">Statut :</label><br>
-                <select id="sex" name="statut">
-                    <option value="available" <%= "available".equals(request.getParameter("statut")) ? "selected" : "" %>>Available</option>
-                    <option value="anavailable" <%= "anavailable".equals(request.getParameter("statut")) ? "selected" : "" %>>Anavailable</option>
+                <label for="Statut">Statut :</label><br>
+                <select id="Statut" name="Statut">
+                    <option value="available" <%= "available".equals(request.getParameter("Statut")) ? "selected" : "" %>>Available</option>
+                    <option value="anavailable" <%= "anavailable".equals(request.getParameter("Statut")) ? "selected" : "" %>>Anavailable</option>
                 </select><br>
             
            <!-- <section class="search-bar">
@@ -228,7 +228,7 @@
                 // Charger le driver JDBC
                 Class.forName("com.mysql.jdbc.Driver");
                 // Établir une connexion à la base de données
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldata", "root", "");
                 // Préparer la requête SQL
                 String sql = "SELECT * FROM rooms";
                 Statement stmt = conn.createStatement();
@@ -238,12 +238,12 @@
                 while(rs.next()) {
             %>
             <tr>
-                <td><%= rs.getString("num_rooms") %></td>
-                <td><%= rs.getString("type") %></td>
-                <td><%= rs.getString("statut") %></td>
+                <td><%= rs.getString("Num_Room") %></td>
+                <td><%= rs.getString("Type") %></td>
+                <td><%= rs.getString("Statut") %></td>
                 <td>
                     <form action="deleteroomServlet" method="post">
-                        <input type="hidden" name="num_rooms" value="<%= rs.getString("num_rooms") %>">
+                        <input type="hidden" name="Num_Room" value="<%= rs.getString("Num_Room") %>">
                         <button type="submit">Supprimer</button>
                     </form>
                 </td>

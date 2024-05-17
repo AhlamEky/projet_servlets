@@ -16,18 +16,42 @@ import java.sql.SQLException;
  */
 public class addAppointementServlet extends HttpServlet {
 	 private static final long serialVersionUID = 1L;
-	    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldb";
+	    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldata";
 	    private static final String JDBC_USER = "root";
 	    private static final String JDBC_PASSWORD = "";
 
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        // Récupérer les données du formulaire
-	        String id = request.getParameter("id");
-	        String name = request.getParameter("name");
-	        String phoneNumber = request.getParameter("phone_number");
-	        String date = request.getParameter("date");
-	        String hour = request.getParameter("hour");
-	        String idDoctor = request.getParameter("id_doctor");
+	        String IDS = request.getParameter("ID");
+	        String Name = request.getParameter("Name");
+	        String Phone_numberA = request.getParameter("Phone_numberA");
+	        String Date = request.getParameter("Date");
+	        String Hour = request.getParameter("Hour");
+	        String ID_DoctorS = request.getParameter("ID_Doctor");
+	        
+	     // Convertir les chaînes en int
+	        int ID = 0;
+	        int ID_Doctor = 0;
+
+	        if (IDS != null && !IDS.trim().isEmpty()) {
+	            try {
+	            	ID = Integer.parseInt(IDS);
+	            } catch (NumberFormatException e) {
+	                e.printStackTrace();
+	                response.sendRedirect("error.jsp");
+	                return;
+	            }
+	        }
+
+	        if (ID_DoctorS != null && !ID_DoctorS.trim().isEmpty()) {
+	            try {
+	            	ID_Doctor = Integer.parseInt(ID_DoctorS);
+	            } catch (NumberFormatException e) {
+	                e.printStackTrace();
+	                response.sendRedirect("error.jsp");
+	                return;
+	            }
+	        }
 
 	        // Connexion à la base de données et insertion des données
 	        Connection conn = null;
@@ -37,29 +61,28 @@ public class addAppointementServlet extends HttpServlet {
 	            Class.forName("com.mysql.jdbc.Driver");
 	            // Établir une connexion à la base de données
 	            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-	          if (id != null && !id.isEmpty()) {
+	            String sql;
+	          if (ID > 0) {
 	        	// Modification d'un médecin existant
-	            String sql = "UPDATE appointement SET name=?, phone_number=?, date=?, hour=?, idDoctor=? WHERE id=?";
+	            sql = "UPDATE appointment SET Name=?, Phone_numberA=?, Date=?, Hour=?, ID_Doctor=? WHERE ID=?";
 	            stmt = conn.prepareStatement(sql);
-	            stmt.setString(1, id);
-	            stmt.setString(2, name);
-	            stmt.setString(3, phoneNumber);
-	            stmt.setString(4, date);
-	            stmt.setString(5, hour);
-	            stmt.setString(6, idDoctor);
+	            stmt.setString(1, Name);
+	            stmt.setString(2, Phone_numberA);
+	            stmt.setString(3, Date);
+	            stmt.setString(4, Hour);
+	            stmt.setInt(5, ID_Doctor);
 	          } else {
 	              // Ajout d'un nouveau médecin
-	              String sql = "INSERT INTO appointement (name, phone_number, date, hour, idDoctors) VALUES (?, ?, ?, ?, ?)";
+	              sql = "INSERT INTO appointment (Name, Phone_numberA, Date, Hour, ID_Doctor) VALUES (?, ?, ?, ?, ?)";
 	              stmt = conn.prepareStatement(sql);
-	              stmt.setString(1, id);
-		            stmt.setString(2, name);
-		            stmt.setString(3, phoneNumber);
-		            stmt.setString(4, date);
-		            stmt.setString(5, hour);
-		            stmt.setString(6, idDoctor);
+		            stmt.setString(1, Name);
+		            stmt.setString(2, Phone_numberA);
+		            stmt.setString(3, Date);
+		            stmt.setString(4, Hour);
+		            stmt.setInt(5, ID_Doctor);
 	          }
 	          stmt.executeUpdate();
-	          response.sendRedirect("confirmation.jsp");
+	          response.sendRedirect("appointement.jsp");
 	      } catch (Exception e) {
 	          e.printStackTrace();
 	          response.sendRedirect("error.jsp");

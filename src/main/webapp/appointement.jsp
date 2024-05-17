@@ -182,18 +182,18 @@
     <main>
         <div class="add-doctor">
             <form action="addAppointementServlet" method="post">
-                <label for="id">Id :</label><br>
-                <input type="hidden" id="id" name="id" value="<%= request.getParameter("Id") %>">
-                <label for="name">Name :</label><br>
-                <input type="text" id="name" name="name" value="<%= request.getParameter("name") %>" required><br>
-               <label for="phone-number">phone Number :</label><br>
-                <input type="text" id="phone-number" name="phone_number" value="<%= request.getParameter("phone_number") %>"><br>
-                <label for="date">Date :</label><br>
-                <input type="date" id="date" name="date" value="<%= request.getParameter("date") %>"><br>
-                <label for="hour">Hour :</label><br>
-                <input type="text" id="hour" name="hour" value="<%= request.getParameter("hour") %>"><br>
-                <label for="id_doctors">Id_doctors :</label><br>
-                <input type="text" id="id_doctors" name="id_doctors" value="<%= request.getParameter("id_doctors") %>"><br>
+                <label for="ID">Id :</label><br>
+                <input type="NUMBER" id="ID" name="ID" value="<%= request.getParameter("ID") %>">
+                <label for="Name">Name :</label><br>
+                <input type="text" id="Name" name="Name" value="<%= request.getParameter("Name") %>" required><br>
+               <label for="Phone-numberA">phone Number :</label><br>
+                <input type="text" id="Phone-numberA" name="Phone-numberA" value="<%= request.getParameter("Phone-numberA") %>"><br>
+                <label for="Date">Date :</label><br>
+                <input type="date" id="Date" name="Date" value="<%= request.getParameter("Date") %>"><br>
+                <label for="Hour">Hour :</label><br>
+                <input type="text" id="Hour" name="Hour" value="<%= request.getParameter("Hour") %>"><br>
+                <label for="ID_Doctor">Id_doctors :</label><br>
+                <input type="NUMBER" id="ID_Doctor" name="ID_Doctor" value="<%= request.getParameter("ID_Doctor") %>"><br>
             
            <!-- <section class="search-bar">
                 <form action="#">
@@ -231,9 +231,9 @@
                 // Charger le driver JDBC
                 Class.forName("com.mysql.jdbc.Driver");
                 // Établir une connexion à la base de données
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldata", "root", "");
                 // Préparer la requête SQL
-                String sql = "SELECT * FROM appointement";
+                String sql = "SELECT * FROM appointment";
                 Statement stmt = conn.createStatement();
                 // Exécuter la requête
                 ResultSet rs = stmt.executeQuery(sql);
@@ -241,15 +241,15 @@
                 while(rs.next()) {
             %>
             <tr>
-                <td><%= rs.getString("Id") %></td>
+                <td><%= rs.getString("ID") %></td>
                 <td><%= rs.getString("Name") %></td>
-                <td><%= rs.getString("Phone_Number") %></td>
+                <td><%= rs.getString("Phone_numberA") %></td>
                 <td><%= rs.getString("Date") %></td>
                 <td><%= rs.getString("Hour") %></td>
-               <td><%= rs.getString("Id_Doctors") %></td>
+               <td><%= rs.getString("ID_Doctor") %></td>
                 <td>
                     <form action="deleteAppointementrServlet" method="post">
-                        <input type="hidden" name="Id" value="<%= rs.getString("Id") %>">
+                        <input type="hidden" name="ID" value="<%= rs.getString("ID") %>">
                         <button type="submit">Supprimer</button>
                     </form>
                 </td>

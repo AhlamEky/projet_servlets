@@ -16,64 +16,75 @@ import java.sql.SQLException;
  */
 @WebServlet("/addDoctorServlet")
 public class addDoctorServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldb";
-    private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "";
+	 private static final long serialVersionUID = 1L;
+	    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldata";
+	    private static final String JDBC_USER = "root";
+	    private static final String JDBC_PASSWORD = "";
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Récupérer les données du formulaire
-        String idDoctor = request.getParameter("id_doctor");
-        String name = request.getParameter("name");
-        String operatingRoom = request.getParameter("operating_room");
-        String phoneNumber = request.getParameter("phone_number");
-        String dateBirth = request.getParameter("date_birth");
-        String sex = request.getParameter("sex");
-        String speciality = request.getParameter("speciality");
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        // Récupérer les données du formulaire
+	        String ID_DoctorS = request.getParameter("IS_Doctor");
+	        String Name = request.getParameter("Name");
+	        String Operating_Room = request.getParameter("Operating_Room");
+	        String Phone_number = request.getParameter("Phone_number");
+	        String Date_Birth = request.getParameter("Date_Birth");
+	        String Sex = request.getParameter("Sex");
+	        String Speciality = request.getParameter("Speciality");
 
-        // Connexion à la base de données et insertion des données
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try {
-        	// Charger le driver JDBC
-            Class.forName("com.mysql.jdbc.Driver");
-            // Établir une connexion à la base de données
-            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-          if (idDoctor != null && !idDoctor.isEmpty()) {
-        	// Modification d'un médecin existant
-            String sql = "UPDATE doctors SET name=?, operating_room=?, phone_number=?, date_birth=?, sex=?, speciality=? WHERE id_doctor=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, idDoctor);
-            stmt.setString(2, name);
-            stmt.setString(3, operatingRoom);
-            stmt.setString(4, phoneNumber);
-            stmt.setString(5, dateBirth);
-            stmt.setString(6, sex);
-            stmt.setString(7, speciality);
-          } else {
-              // Ajout d'un nouveau médecin
-              String sql = "INSERT INTO doctors (name, operating_room, phone_number, date_birth, sex, speciality) VALUES (?, ?, ?, ?, ?, ?)";
-              stmt = conn.prepareStatement(sql);
-              stmt.setString(1, idDoctor);
-              stmt.setString(2, name);
-              stmt.setString(3, operatingRoom);
-              stmt.setString(4, phoneNumber);
-              stmt.setString(5, dateBirth);
-              stmt.setString(6, sex);
-              stmt.setString(7, speciality);
-          }
-          stmt.executeUpdate();
-          response.sendRedirect("confirmation.jsp");
-      } catch (Exception e) {
-          e.printStackTrace();
-          response.sendRedirect("error.jsp");
-	} finally {
-          try {
-              if (stmt != null) stmt.close();
-              if (conn != null) conn.close();
-          } catch (SQLException e) {
-              e.printStackTrace();
-          }
-      }
-  }
-}
+	        int ID_Doctor = 0;
+	        if (ID_DoctorS != null && !ID_DoctorS.trim().isEmpty()) {
+	            try {
+	            	ID_Doctor = Integer.parseInt(ID_DoctorS);
+	            } catch (NumberFormatException e) {
+	                e.printStackTrace();
+	                response.sendRedirect("error.jsp");
+	                return;
+	            }
+	        }
+	        // Connexion à la base de données et insertion ou mise à jour des données
+	        Connection conn = null;
+	        PreparedStatement stmt = null;
+	        try {
+	            // Charger le driver JDBC
+	            Class.forName("com.mysql.jdbc.Driver");
+	            // Établir une connexion à la base de données
+	            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+	            String sql;
+	            if (ID_Doctor>0) {
+	                // Modification d'un médecin existant
+	                sql = "UPDATE doctors SET Name=?, Operating_Room=?, Phone_number=?, Date_Birth=?, Sex=?, Speciality=? WHERE Id_Doctor=?";
+	                stmt = conn.prepareStatement(sql);
+	                stmt.setInt(1, ID_Doctor);
+	                stmt.setString(2, Name);
+	                stmt.setString(3, Operating_Room);
+	                stmt.setString(4, Phone_number);
+	                stmt.setString(5, Date_Birth);
+	                stmt.setString(6, Sex);
+	                stmt.setString(7, Speciality);
+	               // Utilisation de l'ID du médecin dans la clause WHERE
+	            } else {
+	                // Ajout d'un nouveau médecin
+	                sql = "INSERT INTO doctors ( Name, Operating_Room, Phone_number, Date_Birth, Sex, Speciality) VALUES (?, ?, ?, ?, ?, ?)";
+	                stmt = conn.prepareStatement(sql);
+	                stmt.setString(1, Name);
+	                stmt.setString(2, Operating_Room);
+	                stmt.setString(3, Phone_number);
+	                stmt.setString(4, Date_Birth);
+	                stmt.setString(5, Sex);
+	                stmt.setString(6, Speciality);
+	            }
+	            stmt.executeUpdate();
+	            response.sendRedirect("doctors.jsp");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            response.sendRedirect("error.jsp");
+	        } finally {
+	            try {
+	                if (stmt != null) stmt.close();
+	                if (conn != null) conn.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}

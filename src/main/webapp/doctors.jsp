@@ -182,23 +182,23 @@
     <main>
         <div class="add-doctor">
             <form action="addDoctorServlet" method="post">
-                <label for="name">Id_Doctors :</label><br>
-                <input type="text" id="id_doctors" name="id_doctors" value="<%= request.getParameter("doctorId") %>">
-                <label for="name">Name :</label><br>
-                <input type="text" id="name" name="name" value="<%= request.getParameter("name") %>" required><br>
-                <label for="operating-room">Operating Room :</label><br>
-                <input type="text" id="operating-room" name="operating_room" value="<%= request.getParameter("operating_room") %>"><br>
-                <label for="phone-number">phone Number :</label><br>
-                <input type="text" id="phone-number" name="phone_number" value="<%= request.getParameter("phone_number") %>"><br>
-                <label for="date-birth">Date Birth :</label><br>
-                <input type="date" id="date-birth" name="date_birth" value="<%= request.getParameter("date_birth") %>"><br>
+                <label for="ID_Doctor">Id_Doctors :</label><br>
+                <input type="INT(11)" id="ID_Doctor" name="ID_Doctor" value="<%= request.getParameter("ID_Doctor") %>">
+                <label for="Name">Name :</label><br>
+                <input type="text" id="Name" name="Name" value="<%= request.getParameter("Name") %>" required><br>
+                <label for="Operating-Room">Operating Room :</label><br>
+                <input type="text" id="Operating-Room" name="Operating_Room" value="<%= request.getParameter("Operating_Room") %>"><br>
+                <label for="Phone-number">phone Number :</label><br>
+                <input type="text" id="Phone-number" name="Phone_number" value="<%= request.getParameter("Phone_number") %>"><br>
+                <label for="Date-Birth">Date Birth :</label><br>
+                <input type="date" id="Date-Birth" name="Date_Birth" value="<%= request.getParameter("Date_Birth") %>"><br>
                 <label for="sex">Sex :</label><br>
-                <select id="sex" name="sex">
-                    <option value="M" <%= "M".equals(request.getParameter("sex")) ? "selected" : "" %>>Homme</option>
-                    <option value="F" <%= "F".equals(request.getParameter("sex")) ? "selected" : "" %>>Femme</option>
+                <select id="Sex" name="Sex">
+                    <option value="M" <%= "M".equals(request.getParameter("Sex")) ? "selected" : "" %>>Homme</option>
+                    <option value="F" <%= "F".equals(request.getParameter("Sex")) ? "selected" : "" %>>Femme</option>
                 </select><br>
-                <label for="speciality">Speciality :</label><br>
-                <input type="text" id="speciality" name="speciality" value="<%= request.getParameter("speciality") %>"><br>
+                <label for="Speciality">Speciality :</label><br>
+                <input type="text" id="Speciality" name="Speciality" value="<%= request.getParameter("Speciality") %>"><br>
             
            <!-- <section class="search-bar">
                 <form action="#">
@@ -237,7 +237,7 @@
                 // Charger le driver JDBC
                 Class.forName("com.mysql.jdbc.Driver");
                 // Établir une connexion à la base de données
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldata", "root", "");
                 // Préparer la requête SQL
                 String sql = "SELECT * FROM doctors";
                 Statement stmt = conn.createStatement();
@@ -247,16 +247,16 @@
                 while(rs.next()) {
             %>
             <tr>
-                <td><%= rs.getString("Id_Doctors") %></td>
+                <td><%= rs.getString("ID_Doctor") %></td>
                 <td><%= rs.getString("Name") %></td>
                 <td><%= rs.getString("Operating_Room") %></td>
-                <td><%= rs.getString("Phone_Number") %></td>
+                <td><%= rs.getString("Phone_number") %></td>
                 <td><%= rs.getString("Date_Birth") %></td>
                 <td><%= rs.getString("Sex") %></td>
                 <td><%= rs.getString("Speciality") %></td>
                 <td>
                     <form action="deleteDoctorServlet" method="post">
-                        <input type="hidden" name="doctorId" value="<%= rs.getString("Id_Doctors") %>">
+                        <input type="hidden" name="ID_Doctor" value="<%= rs.getString("ID_Doctor") %>">
                         <button type="submit">Supprimer</button>
                     </form>
                 </td>

@@ -16,14 +16,15 @@ import java.sql.SQLException;
  */
 public class deletePatientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldb";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hospitaldata";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupérer l'ID du médecin à supprimer depuis le formulaire
-        String Id = request.getParameter("id");
+        String IDS = request.getParameter("id");
 
+        int id = Integer.parseInt(IDS);
         // Connexion à la base de données et suppression du médecin
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -31,7 +32,7 @@ public class deletePatientServlet extends HttpServlet {
             conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
             String sql = "DELETE FROM patientss WHERE id=?";
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, Id);
+            stmt.setInt(1, id);
             stmt.executeUpdate();
             response.sendRedirect("patient.jsp");
         } catch (SQLException e) {

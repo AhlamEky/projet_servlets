@@ -165,7 +165,7 @@
         <ul>
             <li><a href="doctors.jsp">Doctors</a></li>
             <li><a href="rooms.jsp">Rooms</a></li>
-            <li><a href="appointment.jsp">Appointments</a></li>
+            <li><a href="appointement.jsp">Appointments</a></li>
             <li><a href="patient.jsp">Patients</a></li>
         </ul>
         <div class="logout">
@@ -182,25 +182,23 @@
     <main>
         <div class="add-doctor">
             <form action="addPatientServlet" method="post">
-                <label for="name">Id :</label><br>
-                <input type="hidden" id="id" name="id" value="<%= request.getParameter("Id") %>">
-                <label for="name">Name :</label><br>
-                <input type="text" id="name" name="name" value="<%= request.getParameter("name") %>" required><br>
-                <label for="phone-number">phone Number :</label><br>
-                <input type="text" id="phone-number" name="phone_number" value="<%= request.getParameter("phone_number") %>"><br>
-                <label for="date-birth">Date Birth :</label><br>
-                <input type="date" id="date-birth" name="date_birth" value="<%= request.getParameter("date_birth") %>"><br>
-                <label for="adress">Adress :</label><br>
-                <input type="text" id="adress" name="adress" value="<%= request.getParameter("adress") %>"><br>
-                <label for="sex">Sex :</label><br>
-                <select id="sex" name="sex">
-                    <option value="M" <%= "M".equals(request.getParameter("sex")) ? "selected" : "" %>>Homme</option>
-                    <option value="F" <%= "F".equals(request.getParameter("sex")) ? "selected" : "" %>>Femme</option>
+                <label for="Name">Name :</label><br>
+                <input type="text" id="Name" name="Name" value="<%= request.getParameter("Name") %>" required><br>
+                <label for="Phone-number">phone Number :</label><br>
+                <input type="NUMBER" id="Phone-number" name="Phone_number" value="<%= request.getParameter("Phone_number") %>"><br>
+                <label for="Date-birth">Date Birth :</label><br>
+                <input type="date" id="Date-birth" name="Date_birth" value="<%= request.getParameter("Date_birth") %>"><br>
+                <label for="Adress">Adress :</label><br>
+                <input type="text" id="Adress" name="Adress" value="<%= request.getParameter("Adress") %>"><br>
+                <label for="Sex">Sex :</label><br>
+                <select id="Sex" name="Sex">
+                    <option value="M" <%= "M".equals(request.getParameter("Sex")) ? "selected" : "" %>>Homme</option>
+                    <option value="F" <%= "F".equals(request.getParameter("Sex")) ? "selected" : "" %>>Femme</option>
                 </select><br>
-                <label for="disease">Disease :</label><br>
-                <input type="text" id="disease" name="disease" value="<%= request.getParameter("disease") %>"><br>
-                <label for="name">Id_Doctors :</label><br>
-                <input type="hidden" id="id_doctors" name="id_doctors" value="<%= request.getParameter("doctorId") %>">
+                <label for="Disease">Disease :</label><br>
+                <input type="text" id="Disease" name="Disease" value="<%= request.getParameter("Disease") %>"><br>
+                <label for="Id_Doctor">Id_Doctors :</label><br>
+                <input type="number" id="Id_Doctor" name="Id_Doctor" value="<%= request.getParameter("Id_Doctor") %>">
                   <label for="Number_Rooms">Number_Rooms :</label><br>
                  <select id="Number_Rooms" name="Number_Rooms">
                     <option value="Room1" <%= "M".equals(request.getParameter("Number_Rooms")) ? "selected" : "" %>>Room1</option>
@@ -245,7 +243,7 @@
                 // Charger le driver JDBC
                 Class.forName("com.mysql.jdbc.Driver");
                 // Établir une connexion à la base de données
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldb", "root", "");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/hospitaldata", "root", "");
                 // Préparer la requête SQL
                 String sql = "SELECT * FROM patientss";
                 Statement stmt = conn.createStatement();
@@ -255,18 +253,18 @@
                 while(rs.next()) {
             %>
             <tr>
-                <td><%= rs.getString("Id") %></td>
+                <td><%= rs.getString("id") %></td>
                 <td><%= rs.getString("Name") %></td>
-                <td><%= rs.getString("Phone_Number") %></td>
-                <td><%= rs.getString("Date_Birth") %></td>
+                <td><%= rs.getString("Phone_number") %></td>
+                <td><%= rs.getString("Date_birth") %></td>
                 <td><%= rs.getString("Adress") %></td>
                 <td><%= rs.getString("Sex") %></td>
                 <td><%= rs.getString("Disease") %></td>
-                <td><%= rs.getString("Id_Doctors") %></td>
+                <td><%= rs.getString("Id_Doctor") %></td>
                 <td><%= rs.getString("Number_Rooms") %></td>
                 <td>
                     <form action="deletePatientServlet" method="post">
-                        <input type="hidden" name="Id" value="<%= rs.getString("Id") %>">
+                        <input type="hidden" name="id" value="<%= rs.getString("id") %>">
                         <button type="submit">Supprimer</button>
                     </form>
                 </td>
