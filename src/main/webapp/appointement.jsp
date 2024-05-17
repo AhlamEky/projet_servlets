@@ -169,7 +169,7 @@
             <li><a href="patient.jsp">Patients</a></li>
         </ul>
         <div class="logout">
-        <a hraf="login.jsp">Log Out</a>
+        <a href="login.jsp">Log Out</a>
         </div>
 </div>
 

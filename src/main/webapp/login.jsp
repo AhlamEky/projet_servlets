@@ -81,7 +81,6 @@
 
             <button type="submit">Sign In</button>
 
-            <p>Don't have an account? <a href="#">Sign Up</a></p>
         </form>
     </div>
 </body>
