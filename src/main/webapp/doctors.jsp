@@ -40,7 +40,7 @@
 
  h2 {
   margin: 10px; /* Remove default margin for headings */
-  text-align: center;
+  text-align: center;/**/
 }
 
 .button{
